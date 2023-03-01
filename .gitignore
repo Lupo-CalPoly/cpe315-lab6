@@ -1,3 +1,9 @@
 *.o
-mm-omp
+*.out
+mmmul
+mmmul-c
+mmmul-cO2
+mm
 mm-simd
+mm-omp
+.swp*

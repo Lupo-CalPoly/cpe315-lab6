@@ -15,6 +15,7 @@ void matmul(int*, const int*, const int*, unsigned int, unsigned int,
         unsigned int);
 
 void PrintMat(Matrix);
+void PrintMat2(Matrix);
 Matrix AllocateMatrix(int height, int width, int init);
 Matrix Allocate2ndMatrix(int height, int width, int init);
 
@@ -32,17 +33,21 @@ int main(int argc, char** argv) {
   Matrix  M;
   Matrix  N;
   Matrix  P;
+  int size = 0;
 
   srand(2222);
 
   // Check command line for input matrix files
-  if(argc == 1) 
+  if(argc <= 2)
   {
-    // No inputs provided
+     if (argc == 2)
+        size = atol(argv[1]);
+     if (size <= 0)
+        size = MATRIX_SIZE;
     // Allocate and initialize the matrices
-    M  = AllocateMatrix(MATRIX_SIZE, MATRIX_SIZE, 1);
-    N  = Allocate2ndMatrix(MATRIX_SIZE, MATRIX_SIZE, 1);
-    P  = AllocateMatrix(MATRIX_SIZE, MATRIX_SIZE, 0);
+    M  = AllocateMatrix(size, size, 1);
+    N  = Allocate2ndMatrix(size, size, 1);
+    P  = AllocateMatrix(size, size, 0);
   }
   else
   {
@@ -50,7 +55,7 @@ int main(int argc, char** argv) {
     return 1;
   }
   
-  matmul(P.elements, M.elements, N.elements, HM, WM, WN);
+  matmul(P.elements, M.elements, N.elements, size, size, size);
 
   PrintMat(P);
 
@@ -115,6 +120,21 @@ void PrintMat(Matrix M)
   {
     for (unsigned int j=0; j<M.width; j++) 
       fprintf(stdout, "%d ", M.elements[i*M.width+j]);
+    fprintf(stdout, "\n"); 
+  }
+  fprintf(stderr,"******************************************************\n");
+  fprintf(stderr,"Done.\n");
+}
+
+// Write a matrix to file
+void PrintMat2(Matrix M)
+{
+  /*** Print results ***/
+  fprintf(stderr,"Printing Result Matrix:\n");
+  for (unsigned int i=0; i<M.height; i++)
+  {
+    for (unsigned int j=0; j<M.width; j++) 
+      fprintf(stdout, "%d ", M.elements[j*M.width+i]);
     fprintf(stdout, "\n"); 
   }
   fprintf(stderr,"******************************************************\n");

@@ -1,6 +1,6 @@
 CXX = g++
 CC = gcc
-CXXFLAGS_OPENMP = -ggdb -Wall -O2 -g -fopenmp -DNUM_THREADS=4
+CXXFLAGS_OPENMP = -ggdb -Wall -O2 -g -fopenmp -DNUM_THREADS=64
 OMPSRCS = mm-omp-driver.cpp mm-omp.cpp
 OMPOBJS = mm-omp-driver.o mm-omp.o
 SIMDSRCS = mm-simd-driver.cpp 
@@ -11,13 +11,13 @@ BIN2 = mm-simd
 
 all: mm-omp mm-simd
 
-mm-omp:
+mm-omp: $(OMPSRCS)
 	$(CXX) $(CXXFLAGS_OPENMP) -c $(OMPSRCS)
 	$(CXX) $(CXXFLAGS_OPENMP) -o $(BIN1) $(OMPOBJS)
 
-mm-simd:
-	$(CXX) $(CXXFLAGS) -c $(SIMDSRCS)
-	$(CC) -c $(ASSEMSRCS)
+mm-simd: $(SIMDSRCS) $(ASSEMSRCS)
+	$(CXX) -g $(CXXFLAGS) -c $(SIMDSRCS)
+	$(CC) -g -c $(ASSEMSRCS)
 	$(CXX) $(CXXFLAGS) -o $(BIN2) $(SIMDOBJS)
 
 clean:

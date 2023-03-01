@@ -32,18 +32,24 @@ int main(int argc, char** argv) {
   Matrix  M;
   Matrix  N;
   Matrix  P;
+  int size = 0;
   omp_set_num_threads(NUM_THREADS);
 
   srand(2222);
 
   // Check command line for input matrix files
-  if(argc == 1) 
+  if(argc <= 2) 
   {
+     if (argc == 2)
+        size = atol(argv[1]);
+     if (size <= 0)
+        size = MATRIX_SIZE;
+
     // No inputs provided
     // Allocate and initialize the matrices
-    M  = AllocateMatrix(MATRIX_SIZE, MATRIX_SIZE, 1);
-    N  = Allocate2ndMatrix(MATRIX_SIZE, MATRIX_SIZE, 1);
-    P  = AllocateMatrix(MATRIX_SIZE, MATRIX_SIZE, 0);
+    M  = AllocateMatrix(size, size, 1);
+    N  = Allocate2ndMatrix(size, size, 1);
+    P  = AllocateMatrix(size, size, 0);
   }
   else
   {
@@ -51,7 +57,7 @@ int main(int argc, char** argv) {
     return 1;
   }
   
-  matmul(P.elements, M.elements, N.elements, HM, WM, WN);
+  matmul(P.elements, M.elements, N.elements, size, size, size);
 
   PrintMat(P);
 
