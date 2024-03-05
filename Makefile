@@ -1,5 +1,6 @@
 CXX = g++
 CC = gcc
+CXXFLAGS= -ggdb -Wall -O2 -g 
 CXXFLAGS_OPENMP = -ggdb -Wall -O2 -g -fopenmp -DNUM_THREADS=64
 OMPSRCS = mm-omp-driver.cpp mm-omp.cpp
 OMPOBJS = mm-omp-driver.o mm-omp.o
